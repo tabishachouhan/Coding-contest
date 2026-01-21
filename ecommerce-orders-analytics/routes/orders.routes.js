@@ -3,7 +3,6 @@ import { readDB, writeDB } from "../server.js";
 
 const router = express.Router();
 
-// Create Order
 router.post("/", (req, res) => {
   const { productId, quantity } = req.body;
 
@@ -31,7 +30,6 @@ router.post("/", (req, res) => {
 
   db.orders.push(newOrder);
 
-  // Reduce stock
   product.stock -= quantity;
 
   writeDB(db);
@@ -40,14 +38,12 @@ router.post("/", (req, res) => {
 });
 
 
-// Get All Orders
 router.get("/", (req, res) => {
   let db = readDB();
   res.json(db.orders);
 });
 
 
-// Cancel Order
 router.delete("/:orderId", (req, res) => {
   const orderId = Number(req.params.orderId);
   let db = readDB();
@@ -68,7 +64,6 @@ router.delete("/:orderId", (req, res) => {
     return res.status(400).json({ message: "Cancellation allowed only for today's orders" });
   }
 
-  // Revert stock
   let product = db.products.find(p => p.id === order.productId);
   if (product) {
     product.stock += order.quantity;
@@ -82,7 +77,6 @@ router.delete("/:orderId", (req, res) => {
 });
 
 
-// Change Order Status (placed → shipped → delivered)
 router.patch("/change-status/:orderId", (req, res) => {
   const orderId = Number(req.params.orderId);
   const { status } = req.body;
@@ -103,7 +97,6 @@ router.patch("/change-status/:orderId", (req, res) => {
   const currentIndex = validFlow.indexOf(order.status);
   const newIndex = validFlow.indexOf(status);
 
-  // Must follow correct flow
   if (newIndex !== currentIndex + 1) {
     return res.status(400).json({ message: "Invalid status flow" });
   }

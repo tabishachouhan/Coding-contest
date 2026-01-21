@@ -3,7 +3,6 @@ import { readDB, writeDB } from "../server.js";
 
 const router = express.Router();
 
-// Create Product
 router.post("/", (req, res) => {
   const { name, price, stock } = req.body;
 
@@ -21,7 +20,6 @@ router.post("/", (req, res) => {
   res.status(201).json({ message: "Product created", product: newProduct });
 });
 
-// Get all products
 router.get("/", (req, res) => {
   let db = readDB();
   res.json(db.products);

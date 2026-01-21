@@ -3,7 +3,6 @@ import { readDB } from "../server.js";
 
 const router = express.Router();
 
-// 1. All Orders with Count
 router.get("/allorders", (req, res) => {
   let db = readDB();
 
@@ -16,7 +15,6 @@ router.get("/allorders", (req, res) => {
   });
 });
 
-// 2. Cancelled Orders
 router.get("/cancelled-orders", (req, res) => {
   let db = readDB();
 
@@ -28,7 +26,6 @@ router.get("/cancelled-orders", (req, res) => {
   });
 });
 
-// 3. Shipped Orders
 router.get("/shipped", (req, res) => {
   let db = readDB();
 
@@ -40,7 +37,6 @@ router.get("/shipped", (req, res) => {
   });
 });
 
-// 4. Total Revenue by Product
 router.get("/total-revenue/:productId", (req, res) => {
   const productId = Number(req.params.productId);
   let db = readDB();
@@ -55,7 +51,6 @@ router.get("/total-revenue/:productId", (req, res) => {
   res.json({ productId, revenue });
 });
 
-// 5. Overall Revenue
 router.get("/alltotalrevenue", (req, res) => {
   let db = readDB();
 
